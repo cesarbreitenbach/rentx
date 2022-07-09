@@ -3,6 +3,8 @@ import Acessorie from '../Acessorie';
 import BackButton from '../BackButton';
 import ImageSlider from '../ImageSlider';
 
+import {Feather} from '@expo/vector-icons'
+
 import {  CarImages, 
           Container, 
           Header,
@@ -14,9 +16,18 @@ import {  CarImages,
           Rent,
           Period,
           Price,
-          About,
           Acessories,
           Footer,
+          RentalPeriod,
+          CalendarIcon,
+          DateInfo,
+          DateTitle,
+          DateValue,
+          RentalPrice,
+          RentalPriceLabel,
+          RentalPriceDetails,
+          RentalPriceQuota,
+          RentalPriceTotal,
 } from './styles'
 
 import SpeedSvg from '../../assets/speed.svg';
@@ -26,8 +37,11 @@ import Gasoline from '../../assets/gasoline.svg';
 import Exchange from '../../assets/exchange.svg';
 import People from '../../assets/people.svg';
 import Button from '../Button';
+import { RFValue } from 'react-native-responsive-fontsize';
+import { useTheme } from 'styled-components';
 
-export default function CarDetails(){
+export default function SchedulingDetails(){
+  const theme = useTheme();
 return (
    <Container> 
     <Header>
@@ -60,10 +74,38 @@ return (
         <Acessorie name="2 pessoas" icon={People}/>
       </Acessories>
 
-      <About>
-        Este é automóvel desportivo. Surgiu do lendário touro de lide indultado 
-        na praça Real Maestranza de Sevilla. É um belíssimo carro para quem gosta de acelerar.
-      </About>
+      <RentalPeriod>
+        <CalendarIcon>
+          <Feather
+            name="calendar"
+            size={RFValue(24)}
+            color={theme.colors.shape}
+          />
+        </CalendarIcon>
+        <DateInfo>
+          <DateTitle>DE</DateTitle>
+          <DateValue>18/02/2022</DateValue>
+        </DateInfo>
+          <Feather
+              name="chevron-right"
+              size={RFValue(24)}
+              color={theme.colors.shape}
+            />
+        <DateInfo>
+          <DateTitle>ATE</DateTitle>
+          <DateValue>28/02/2022</DateValue>
+        </DateInfo>
+
+      </RentalPeriod>
+
+      <RentalPrice>
+        <RentalPriceLabel>Total</RentalPriceLabel>
+        <RentalPriceDetails>
+          <RentalPriceQuota>R$ 580 x3 diarias</RentalPriceQuota>
+          <RentalPriceTotal>R$ 2.900</RentalPriceTotal>
+        </RentalPriceDetails>
+      </RentalPrice>
+
     </Content>
     <Footer>
       <Button title="Confirmar" />
