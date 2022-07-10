@@ -18,9 +18,16 @@ import ArrowSvg from '../../assets/arrow.svg';
 import { StatusBar } from 'react-native';
 import Button from '../../components/Button';
 import Calendar from '../../components/Calendar';
+import { useNavigation } from '@react-navigation/native';
+import { Nav } from '../SchedulingDetails';
 
 export default function Scheduling(){
    const theme = useTheme();
+   const navigation = useNavigation<Nav>();
+
+  function handleConfirm () {
+    navigation.navigate('details')
+  }
 return (
    <Container> 
     <Header>
@@ -30,7 +37,7 @@ return (
          backgroundColor="transparent"
          
       />
-      <BackButton onPress={() => {}} color={theme.colors.shape} />
+      <BackButton onPress={() => navigation.goBack()} color={theme.colors.shape} />
       <Title> 
         Escolha uma {`\n`}
         data de início e {`\n`}
@@ -58,7 +65,7 @@ return (
       <Calendar />
     </Content>
     <Footer>
-      <Button title="Confirmar" />
+      <Button title="Confirmar" onPress={handleConfirm}/>
     </Footer>
    </Container> 
 );}
