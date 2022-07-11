@@ -52,7 +52,7 @@ return (
                         height={RFValue(12)}
                     />
                     <TotalCars>
-                        Total de 12 carros
+                        Total de {carData.length} carros
                     </TotalCars>
                 </HeaderContent>
             </Header>
