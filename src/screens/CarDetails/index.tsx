@@ -37,7 +37,7 @@ export default function CarDetails(){
   const { car } = route.params as RouteParams;
 
   function handleConfirm () {
-    navigation.navigate('scheduling')
+    navigation.navigate('scheduling', {car})
   }
 return (
    <Container> 
