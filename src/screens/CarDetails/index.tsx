@@ -2,6 +2,7 @@ import React from 'react';
 import Acessorie from '../../components/Acessorie';
 import BackButton from '../../components/BackButton';
 import ImageSlider from '../../components/ImageSlider';
+import Animated, { Extrapolate, interpolate, useAnimatedScrollHandler, useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
 
 import {  CarImages, 
           Container, 
@@ -17,6 +18,7 @@ import {  CarImages,
           About,
           Acessories,
           Footer,
+          HeaderAnimationContainer,
 } from './styles'
 
 import Button from '../../components/Button';
@@ -25,6 +27,7 @@ import { Nav } from '../SchedulingDetails';
 import { carDTO } from '../../dtos/carDTO';
 
 import {getAcessoryIcon} from '../../utils/getAcessoryIcon';
+import { StatusBar } from 'react-native';
 
 interface RouteParams {
   car: carDTO;
@@ -36,21 +39,57 @@ export default function CarDetails(){
 
   const { car } = route.params as RouteParams;
 
+  const scrollY = useSharedValue(0);
+
+  const scrollHandler = useAnimatedScrollHandler(event => {
+    scrollY.value = event.contentOffset.y;
+  });
+
+  const headerStyleAnimation = useAnimatedStyle(() => {
+    return {
+      height: interpolate(
+          scrollY.value,
+          [0, 200],
+          [200, 70],
+          Extrapolate.CLAMP
+        ),
+    }
+  })
+
+  const sliderCarStyleAnimation = useAnimatedStyle(() => {
+    return {
+      opacity: interpolate(
+        scrollY.value,
+        [0, 150],
+        [1, 0]
+      ),
+    }
+  })
+
   function handleConfirm () {
     navigation.navigate('scheduling', {car})
   }
+
+
+
 return (
    <Container> 
-    <Header>
-      <BackButton onPress={() => navigation.goBack()} />
-    </Header>
-    <CarImages>
-      <ImageSlider 
-        imagesUrl={car.photos}
-      />
-    </CarImages>
+    <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
+    <HeaderAnimationContainer style={[headerStyleAnimation]}>
+      <Header>
+        <BackButton onPress={() => navigation.goBack()} />
+      </Header>
+      <CarImages style={[sliderCarStyleAnimation]}>
+        <ImageSlider 
+          imagesUrl={car.photos}
+        />
+      </CarImages>
+    </HeaderAnimationContainer>
 
-    <Content>
+    <Content
+       onScroll={scrollHandler}
+       scrollEventThrottle={16}
+    >
       <Details>
         <Description>
           <Brand>{car.brand}</Brand>
@@ -69,7 +108,11 @@ return (
         
       </Acessories>
 
-      <About>{car.about}</About>
+      <About>
+        {car.about}
+        {car.about}
+        {car.about}
+      </About>
     </Content>
     <Footer>
       <Button title="Confirmar" onPress={handleConfirm}/>

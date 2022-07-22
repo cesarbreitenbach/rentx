@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StatusBar} from 'react-native';
+import { StatusBar, BackHandler} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import { ButtonArea, CarList, Container, Header, HeaderContent, MyCarsButton, TotalCars } from './styles';
@@ -11,7 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Nav } from '../SchedulingDetails';
 import { api } from '../../services/api';
 import { carDTO } from '../../dtos/carDTO';
-import Loading from '../../components/Loading';
+import LoadingAnimated from '../../components/LoadingAnimated';
 import { useTheme } from 'styled-components';
 
 export default function Home(){
@@ -41,6 +41,12 @@ export default function Home(){
         fetchCars();
     }, [])
 
+    useEffect(() => {
+        BackHandler.addEventListener('hardwareBackPress', () => {
+            return true;
+        })
+    }, []);
+
     function handleMyCarClick() {
         navigation.navigate('myCars');
     }
@@ -64,7 +70,7 @@ return (
                     </TotalCars>
                 </HeaderContent>
             </Header>
-            {isLoading ? <Loading /> :
+            {isLoading ? <LoadingAnimated /> :
             <CarList 
                data={carData}
                keyExtractor={item => String(item.id)}

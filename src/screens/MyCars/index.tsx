@@ -15,7 +15,7 @@ interface CarProps {
 }
 
 import { Apointment, ApointmentQtd, ApointmentTitle, CarFooter, CarFooterDate, CarFooterPeriod, CarFooterTitle, CarWrapper, Container, Content, Header, SubTitle, Title } from './styles'
-import Loading from '../../components/Loading';
+import LoadingAnimated from '../../components/LoadingAnimated';
 export default function MyCars(){
     const [cars, setCars] = useState<CarProps>({} as CarProps);
     const [loading, setLoading] = useState(false);
@@ -57,7 +57,7 @@ return (
             <ApointmentTitle>Agendamentos feitos</ApointmentTitle>
             <ApointmentQtd>{cars.length}</ApointmentQtd>
         </Apointment>
-        { loading ? <Loading /> :
+        { loading ? <LoadingAnimated /> :
         <FlatList 
             data={cars}
             keyExtractor={item => item.id}
